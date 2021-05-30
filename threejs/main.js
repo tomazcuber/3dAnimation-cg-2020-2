@@ -107,20 +107,14 @@ function onDocumentKeyDown(event) {
         3 : false,
     };
 
-    let animation;
-    switch (key){
-        case 1:
-            // Run selected animation
-            animation = new animations[1]();
-            break;
-        default:
-            animation = null;
-            break
-    }
-
-    if(animation){
+    if(animations.hasOwnProperty(key)){
+        let animation = new animations[key];
         animation.run();
     }
+
+    
+    
+    
 }
 
 init();

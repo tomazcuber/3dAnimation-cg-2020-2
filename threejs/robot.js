@@ -1,75 +1,93 @@
 // Function to generate robot
 // The strategy below is just a suggestion, you may change the shapes to create your customized robot
-const head_size = 1.6;
-const torso_height = 2.5 * head_size;
-const torso_width = 2 * head_size;
-const upper_arm_height = 1.5 * head_size;
-const upper_arm_width = 0.6  * head_size;
-const lower_arm_height = 0.8 * head_size;
-const lower_arm_width = 0.8 * upper_arm_width;
-const upper_leg_height = 2 * head_size;
-const upper_leg_width = 0.4 * torso_width;
-const lower_leg_height = 1.5 * head_size;
-const lower_leg_width = 0.8 * upper_leg_width;
-const hand_width = 1;
-const hand_height = 1;
-const foot_width = 1.5 * lower_leg_width;
-const foot_height = 0.5;
+
+const robotSizes = 
+{
+    head_size: 1.6,
+    torso_height: 4,
+    torso_width : 3.2,
+    upper_arm_height : 2.4,
+    upper_arm_width : 0.96,
+    lower_arm_height : 1.28,
+    lower_arm_width : 0.768,
+    upper_leg_height : 3.2,
+    upper_leg_width : 1.28,
+    lower_leg_height : 2.4,
+    lower_leg_width : 1.024,
+    hand_width : 1,
+    hand_height : 1,
+    foot_width : 1.536,
+    foot_height : 0.5,
+};
+
+const robotPositions = 
+{   
+    torso: [0,0,0],
+    head: [0, 4.5,-0.05],
+    left_upper_arm: [-2.6,0,0],
+    lower_arm: [0,-2,0],
+    hand: [0,-1.5,0],
+    left_upper_leg: [-1,-4,0],
+    right_upper_leg: [1,-4,0],
+    lower_leg: [0,-robotSizes.upper_leg_height,0],
+    left_foot: [-0.2, -robotSizes.lower_leg_height * 0.8, 0],
+    right_foot: [0.2, -robotSizes.lower_leg_height * 0.8, 0]
+}
 
 function gen_robot() {
     // Creating Group (not necessary, but better readability)
     var robot = new THREE.Group();
 
     // torso
-    var torso = gen_rect(torso_width, torso_height);
-    createBodyPart(torso, "torso", [0,0,0]);
+    var torso = gen_rect(robotSizes.torso_width, robotSizes.torso_height);
+    createBodyPart(torso, "torso", robotPositions.torso);
 
     // head
-    var head = gen_circle(head_size);
-    createBodyPart(head, "head", [0,4.5,-0.05]);
+    var head = gen_circle(robotSizes.head_size);
+    createBodyPart(head, "head", robotPositions.head);
     
     // left: upper arm, arm, hand
-    var left_upper_arm = gen_rect(upper_arm_width, upper_leg_height);
-    createBodyPart(left_upper_arm, "left_upper_arm", [-2.6,0,0]);
+    var left_upper_arm = gen_rect(robotSizes.upper_arm_width, robotSizes.upper_arm_height);
+    createBodyPart(left_upper_arm, "left_upper_arm", robotPositions.left_upper_arm);
 
 
-    var left_lower_arm = gen_rect(lower_arm_width, lower_leg_height);
-    createBodyPart(left_lower_arm, "left_lower_arm", [0,-3,0]);
+    var left_lower_arm = gen_rect(robotSizes.lower_arm_width, robotSizes.lower_arm_height);
+    createBodyPart(left_lower_arm, "left_lower_arm", robotPositions.lower_arm);
     
-    var left_hand = gen_rect(hand_width,hand_height);
-    createBodyPart(left_hand, "left_hand", [0,-1.5,0]);
+    var left_hand = gen_rect(robotSizes.hand_width,robotSizes.hand_height);
+    createBodyPart(left_hand, "left_hand", robotPositions.hand);
 
     // right: upper arm, arm, hand
     var right_upper_arm = left_upper_arm.clone();  
-    createBodyPart(right_upper_arm, "right_upper_arm", [2.6,0,0]);
+    createBodyPart(right_upper_arm, "right_upper_arm", robotPositions.left_upper_arm.map((x) => {return -x;}) );
 
     var right_lower_arm = left_lower_arm.clone();
-    createBodyPart(right_lower_arm, "right_lower_arm", [0,-3,0]);
+    createBodyPart(right_lower_arm, "right_lower_arm", robotPositions.lower_arm);
 
     var right_hand = left_hand.clone();
-    createBodyPart(right_hand, "right_hand", [0,-1.5,0]);
+    createBodyPart(right_hand, "right_hand", robotPositions.hand);
 
     // left: upper leg, leg, foot
-    var left_upper_leg = gen_rect(upper_leg_width, upper_leg_height);
-    createBodyPart(left_upper_leg, "left_upper_leg", [-1,-4,0]);
+    var left_upper_leg = gen_rect(robotSizes.upper_leg_width, robotSizes.upper_leg_height);
+    createBodyPart(left_upper_leg, "left_upper_leg", robotPositions.left_upper_leg);
 
-    var left_lower_leg = gen_rect(lower_leg_width,lower_leg_height);
-    createBodyPart(left_lower_leg, "left_lower_leg", [0,-upper_leg_height,0]);
+    var left_lower_leg = gen_rect(robotSizes.lower_leg_width,robotSizes.lower_leg_height);
+    createBodyPart(left_lower_leg, "left_lower_leg", robotPositions.lower_leg);
 
-    var left_foot = gen_rect(foot_width, foot_height);
-    createBodyPart(left_foot, "left_foot", [-0.2, -lower_leg_height * 0.8, 0]);
+    var left_foot = gen_rect(robotSizes.foot_width, robotSizes.foot_height);
+    createBodyPart(left_foot, "left_foot", robotPositions.left_foot);
 
 
     // right: upper leg, leg, foot
     // TO DO
     var right_upper_leg = left_upper_leg.clone();
-    createBodyPart(right_upper_leg, "righr_upper_leg", [1,-4,0]);
+    createBodyPart(right_upper_leg, "righr_upper_leg", robotPositions.right_upper_leg);
 
     var right_lower_leg = left_lower_leg.clone();
-    createBodyPart(right_lower_leg, "right_lower_leg", [0, -upper_leg_height, 0]);
+    createBodyPart(right_lower_leg, "right_lower_leg", robotPositions.lower_leg);
 
     var right_foot = left_foot.clone();
-    createBodyPart(right_foot,"right_foot", [0.2, -lower_leg_height * 0.8, 0]);
+    createBodyPart(right_foot,"right_foot", robotPositions.right_foot);
 
     // Creating hieararchy
     robot.add(torso);
