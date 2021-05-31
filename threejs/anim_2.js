@@ -110,10 +110,6 @@ Object.assign( SailorMoonAnimation.prototype, {
             {x : robotSizes.foot_width/4, y:0}
         )
 
-
-
-        //jumpTween.start();
-        
         firstHeadTween.start();
         secondLeftLegTween.easing(TWEEN.Easing.Exponential.Out);
         firstLeftLegTween.start().chain(secondLeftLegTween, leftFootTween);

@@ -104,7 +104,7 @@ function onDocumentKeyDown(event) {
     let animations = {
         1 : WaveAnimation,
         2 : SailorMoonAnimation,
-        3 : false,
+        3 : BestMatesAnimation,
     };
     
     scene.remove(robot);
