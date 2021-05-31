@@ -100,12 +100,23 @@ function onDocumentKeyDown(event) {
     
     //console.log(event.key);
     let key = parseInt(event.key);
-
+    
     let animations = {
         1 : WaveAnimation,
-        2 : false,
+        2 : SailorMoonAnimation,
         3 : false,
     };
+    
+    scene.remove(robot);
+    robot = gen_robot();
+    scene.add(robot);
+    scene.traverse( function( node ) {
+        if ( node instanceof THREE.Object3D ) {
+            node.updateMatrixWorld();
+            node.matrixAutoUpdate = false;
+        }
+    
+    } );
 
     if(animations.hasOwnProperty(key)){
         let animation = new animations[key];

@@ -8,7 +8,7 @@ Object.assign( WaveAnimation.prototype, {
             0,
             (Math.PI/2),
             500,
-            {x:0, y: robotSizes.upper_arm_height / 2});
+            {x:- robotSizes.upper_arm_width /2, y: robotSizes.upper_arm_height / 2});
 
         // Here you may include animations for other parts 
         let headTween = this.createTween(
@@ -37,7 +37,7 @@ Object.assign( WaveAnimation.prototype, {
             0,
             Math.PI/2,
             500,
-            {x: 0, y: robotSizes.lower_arm_height / 2});
+            {x: 0, y: robotSizes.lower_arm_height});
         
         let rightHandUpTween = this.createTween(
             robot.getObjectByName("right_hand"),
@@ -69,8 +69,9 @@ Object.assign( WaveAnimation.prototype, {
         //  upperArmTween.chain( ... ); this allows other related Tween animations occur at the same time
         rightUpperArmTween.start().chain(rightLowerArmTween);
         headTween.start();
+
         leftLowerArmTween.start().chain(leftHandTween);
-        rightLowerArmTween.repeat(Infinity).yoyo(true);
+        rightLowerArmTween.easing(TWEEN.Easing.Quadratic.InOut).repeat(Infinity).yoyo(true);
        
     },
     
@@ -94,6 +95,7 @@ Object.assign( WaveAnimation.prototype, {
         window.requestAnimationFrame(this.animate.bind(this));
         TWEEN.update(time);
     },
+
     run: function() {
         this.init();
         this.animate(0);

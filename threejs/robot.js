@@ -23,10 +23,10 @@ const robotSizes =
 const robotPositions = 
 {   
     torso: [0,0,0],
-    head: [0, 4.5,-0.05],
+    head: [0, 4.5,0],
     left_upper_arm: [-2.6,0,0],
     lower_arm: [0,-2,0],
-    hand: [0,-1.5,0],
+    hand: [0,-1.5,0.5],
     left_upper_leg: [-1,-4,0],
     right_upper_leg: [1,-4,0],
     lower_leg: [0,-robotSizes.upper_leg_height,0],
@@ -81,7 +81,7 @@ function gen_robot() {
     // right: upper leg, leg, foot
     // TO DO
     var right_upper_leg = left_upper_leg.clone();
-    createBodyPart(right_upper_leg, "righr_upper_leg", robotPositions.right_upper_leg);
+    createBodyPart(right_upper_leg, "right_upper_leg", robotPositions.right_upper_leg);
 
     var right_lower_leg = left_lower_leg.clone();
     createBodyPart(right_lower_leg, "right_lower_leg", robotPositions.lower_leg);
